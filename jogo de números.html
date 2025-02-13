@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo de Adivinhação</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .game-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        input {
+            padding: 10px;
+            width: 80%;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        button:active {
+            background-color: #388e3c;
+        }
+
+        p {
+            font-size: 18px;
+            color: #333;
+        }
+
+        #result {
+            color: orange;
+        }
+
+        #attempts {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>Jogo de Adivinhação</h1>
+        <p>Advinhe o número entre 1 e 100!</p>
+        <input type="number" id="guess" placeholder="Digite um número" />
+        <button onclick="checkGuess()">Verificar</button>
+        <p id="result"></p>
+        <p id="attempts"></p>
+    </div>
+
+    <script>
+        let targetNumber = Math.floor(Math.random() * 100) + 1; // Número aleatório entre 1 e 100
+        let attempts = 0;
+
+        // Função para verificar o palpite do jogador
+        function checkGuess() {
+            let userGuess = document.getElementById("guess").value;
+            let resultText = document.getElementById("result");
+            let attemptsText = document.getElementById("attempts");
+
+            // Verifica se o número inserido é válido
+            if (userGuess < 1 || userGuess > 100 || isNaN(userGuess)) {
+                resultText.textContent = "Por favor, insira um número entre 1 e 100.";
+                resultText.style.color = "red";
+                return;
+            }
+
+            attempts++;
+
+            // Compara o palpite com o número alvo
+            if (userGuess < targetNumber) {
+                resultText.textContent = "Muito baixo! Tente novamente.";
+                resultText.style.color = "orange";
+            } else if (userGuess > targetNumber) {
+                resultText.textContent = "Muito alto! Tente novamente.";
+                resultText.style.color = "orange";
+            } else {
+                resultText.textContent = `Parabéns! Você acertou o número em ${attempts} tentativas.`;
+                resultText.style.color = "green";
+                attemptsText.textContent = ''; // Limpa a informação de tentativas
+                targetNumber = Math.floor(Math.random() * 100) + 1; // Gera um novo número para a próxima rodada
+                attempts = 0; // Reseta o contador de tentativas
+            }
+
+            // Exibe o número de tentativas
+            attemptsText.textContent = `Tentativas: ${attempts}`;
+        }
+    </script>
+</body>
+</html>
